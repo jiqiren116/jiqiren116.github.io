@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>在github pages的第一篇博客</title>
+    <url>/2023/11/17/%E5%9C%A8github-pages%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<h1 id="Hexo部署相关命令"><a href="#Hexo部署相关命令" class="headerlink" title="Hexo部署相关命令"></a>Hexo部署相关命令</h1><ol>
+<li>新建文章:</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">hexo new <span class="string">&quot;文章名&quot;</span> <span class="comment">//相关文章会在博客目录source\_posts中显示，打开后直接编辑即可，已配好表头</span></span><br></pre></td></tr></table></figure>
+
+<p>​	2.清除缓存：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean || hexo cl        # 清除缓存文件 (db.json) 和已生成的静态文件 (public)</span><br><span class="line"></span><br><span class="line">在使用 Hexo 进行博客开发时，可以在以下情况下使用 hexo clean 命令：</span><br><span class="line">清除缓存：当你对 Hexo 博客的配置或插件进行了修改后，可以使用 hexo clean 命令清除缓存，以便让 Hexo 重新生成静态文件，并确保新的配置和插件生效。</span><br><span class="line">重建站点：在某些情况下，你可能需要完全重建你的站点，这时可以先运行 hexo clean 清除之前生成的静态文件和缓存，然后再运行 hexo generate 重新生成静态文件。</span><br></pre></td></tr></table></figure>
+
+<p>​	3.生成静态文件：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">hexo generate || hexo g        # 生成静态文件</span><br></pre></td></tr></table></figure>
+
+<p>​	4.启动服务器：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo server || hexo s          # 启动本地服务器</span><br></pre></td></tr></table></figure>
+
+<p>​	5.部署网站：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo deploy || hexo d          # 部署网站，上传到githubpages</span><br></pre></td></tr></table></figure>
+
+<h1 id="感悟"><a href="#感悟" class="headerlink" title="感悟"></a>感悟</h1><p>这是我在github pages上的第一篇博客，中间光搭建就花了我很长时间，原本图省事想在原生hexo写博客来，但是看到next很漂亮就搞了这个主题，搭建完成后我也很开心，虽然都是在网上到处找的答案。对我来说最大的困难不是技术，因为相关的像git、nodejs等环境早在很久之前就已经配好了，我是在主题挑选上犹豫不决浪费了太多的时间，大概又90%的时间是浪费的，怪自己太垃圾了，刚开始是跟着哔哩哔哩的视频部署了一个jekyll博客，嫌弃太丑，而且如果想在本地运行的话要配置ruby环境，我一是没学过，二是听说windows对ruby不友好，然后我就删了仓库，第二天又重新建了一个，一上来也是直接搞得next主题，没搞明白就删了换成了原生hexo，晚上就又换成了next，虽然我没有掌握很多的知识，但我知道了一旦配置好像hexo这样的博客框架，再去换主题的时候就很快，换next就很快，而且写文章的方法是通用的，只不过在不同的主题上的显示方式不同。我算是一个喜欢记录的人，我平常写日记，我希望把写博客坚持下去，虽然比别人晚了好多年。</p>
+]]></content>
+      <categories>
+        <category>人生之路</category>
+      </categories>
+  </entry>
+</search>
