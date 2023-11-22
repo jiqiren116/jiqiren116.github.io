@@ -907,6 +907,7 @@ pre code {
   border-top: 3px solid transparent;
   flex-grow: 1;
   list-style-type: none;
+  transition: all 0.2s ease-out;
 }
 @media (max-width: 413px) {
   .post-body .tabs ul.nav-tabs li.tab,
@@ -2634,7 +2635,7 @@ header.header {
   vertical-align: middle;
 }
 .links-of-author a::before {
-  background: #4ac477;
+  background: #ffe;
   display: inline-block;
   margin-right: 3px;
   transform: translateY(-2px);
