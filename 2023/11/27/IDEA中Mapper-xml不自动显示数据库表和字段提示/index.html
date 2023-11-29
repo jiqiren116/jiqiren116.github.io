@@ -19,23 +19,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"jiqiren116.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="robot-x Blog">
-<meta property="og:url" content="http://jiqiren116.github.io/categories/Java/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/index.html">
+    <meta name="description" content="解决IDEA中编写Mapper.xml的SQL语句不自动显示数据库表和字段提示的问题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IDEA中Mapper.xml不自动显示数据库表和字段提示">
+<meta property="og:url" content="http://jiqiren116.github.io/2023/11/27/IDEA%E4%B8%ADMapper-xml%E4%B8%8D%E8%87%AA%E5%8A%A8%E6%98%BE%E7%A4%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E5%92%8C%E5%AD%97%E6%AE%B5%E6%8F%90%E7%A4%BA/index.html">
 <meta property="og:site_name" content="robot-x Blog">
+<meta property="og:description" content="解决IDEA中编写Mapper.xml的SQL语句不自动显示数据库表和字段提示的问题">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-11-27T08:15:37.000Z">
+<meta property="article:modified_time" content="2023-11-27T08:23:07.664Z">
 <meta property="article:author" content="robot-x">
+<meta property="article:tag" content="IDEA">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://jiqiren116.github.io/categories/Java/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C/">
+<link rel="canonical" href="http://jiqiren116.github.io/2023/11/27/IDEA%E4%B8%ADMapper-xml%E4%B8%8D%E8%87%AA%E5%8A%A8%E6%98%BE%E7%A4%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E5%92%8C%E5%AD%97%E6%AE%B5%E6%8F%90%E7%A4%BA/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"categories/Java/数据库操作/index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://jiqiren116.github.io/2023/11/27/IDEA%E4%B8%ADMapper-xml%E4%B8%8D%E8%87%AA%E5%8A%A8%E6%98%BE%E7%A4%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E5%92%8C%E5%AD%97%E6%AE%B5%E6%8F%90%E7%A4%BA/","path":"2023/11/27/IDEA中Mapper-xml不自动显示数据库表和字段提示/","title":"IDEA中Mapper.xml不自动显示数据库表和字段提示"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>分类: 数据库操作 | robot-x Blog</title>
+<title>IDEA中Mapper.xml不自动显示数据库表和字段提示 | robot-x Blog</title>
   
 
 
@@ -148,18 +153,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -186,50 +191,148 @@
 
     </div>
 
-    <div class="main-inner category posts-collapse">
+    <div class="main-inner post posts-expand">
 
 
   
+
+
+<div class="post-block">
   
   
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
-        <h1 class="collection-header">数据库操作
-          <small>分类</small>
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jiqiren116.github.io/2023/11/27/IDEA%E4%B8%ADMapper-xml%E4%B8%8D%E8%87%AA%E5%8A%A8%E6%98%BE%E7%A4%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E5%92%8C%E5%AD%97%E6%AE%B5%E6%8F%90%E7%A4%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="robot-x">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="robot-x Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="IDEA中Mapper.xml不自动显示数据库表和字段提示 | robot-x Blog">
+      <meta itemprop="description" content="解决IDEA中编写Mapper.xml的SQL语句不自动显示数据库表和字段提示的问题">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          IDEA中Mapper.xml不自动显示数据库表和字段提示
         </h1>
-      </div>
 
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
       
-    <div class="collection-year">
-      <span class="collection-header">2023</span>
+
+      <time title="创建时间：2023-11-27 16:15:37 / 修改时间：16:23:07" itemprop="dateCreated datePublished" datetime="2023-11-27T16:15:37+08:00">2023-11-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/" itemprop="url" rel="index"><span itemprop="name">杂七杂八</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">解决IDEA中编写Mapper.xml的SQL语句不自动显示数据库表和字段提示的问题</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><strong>打开File的settings，在搜索框中找到SQL Dialects，把SQL Dialects选项的右边那个SQL Dialect改为你的默认数据库，我这边之前默认的是<code>&lt;None&gt;</code>，然后我把它改回了我使用的mysql，之后就会有提示了。</strong></p>
+<p><big><strong>修改前：</strong></big></p>
+<table>
+<thead>
+<tr>
+<th>Global SQL Dialect：</th>
+<th><None></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ProjectSQL Dialect：</td>
+<td><None></td>
+</tr>
+</tbody></table>
+<p><big><strong>修改后，改为自己的数据库类型：</strong></big></p>
+<table>
+<thead>
+<tr>
+<th>Global SQL Dialect：</th>
+<th>MySQL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ProjectSQL Dialect：</td>
+<td>MySQL</td>
+</tr>
+</tbody></table>
+<p>然后点击Apply，再点击OK。</p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2023-11-22T22:44:32+08:00"
-              content="2023-11-22">
-          11-22
-        </time>
-      </div>
+    
+    
+    
 
-      <div class="post-title">
-        <a class="post-title-link" href="/2023/11/22/JDBC%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/" itemprop="url">
-          <span itemprop="name">JDBC相关知识</span>
-        </a>
-      </div>
+    <footer class="post-footer">
+          
 
-      
-    </header>
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>robot-x
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://jiqiren116.github.io/2023/11/27/IDEA%E4%B8%ADMapper-xml%E4%B8%8D%E8%87%AA%E5%8A%A8%E6%98%BE%E7%A4%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E5%92%8C%E5%AD%97%E6%AE%B5%E6%8F%90%E7%A4%BA/" title="IDEA中Mapper.xml不自动显示数据库表和字段提示">http://jiqiren116.github.io/2023/11/27/IDEA中Mapper-xml不自动显示数据库表和字段提示/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/IDEA/" rel="tag"># IDEA</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/11/26/Mybatis/" rel="prev" title="Mybatis">
+                  <i class="fa fa-angle-left"></i> Mybatis
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/11/28/Mybatis%E7%BB%83%E4%B9%A0/" rel="next" title="Mybatis练习">
+                  Mybatis练习 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
   </article>
+</div>
 
-    </div>
-  </div>
-  
-  
-  
+
+
+
+
 
 </div>
   </main>
@@ -278,6 +381,8 @@
 <script src="/js/third-party/search/local-search.js"></script>
 
 
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.5.0/mermaid.min.js","integrity":"sha256-K7oJiQlDulzl24ZUFOywuYme1JqBBvQzK6m8qHjt9Gk="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
 
 
 
