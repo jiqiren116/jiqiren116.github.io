@@ -139,7 +139,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%89%8D%E8%A8%80"><span class="nav-text">1. 前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Hexo%E4%B8%ADNext%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AEMermaid"><span class="nav-text">2. Hexo中Next主题配置Mermaid</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Mermaid%E7%94%BB%E5%9B%BE%E6%95%88%E6%9E%9C%E6%BC%94%E7%A4%BA"><span class="nav-text">3. Mermaid画图效果演示</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%89%8D%E8%A8%80"><span class="nav-text"> 1. 前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-hexo%E4%B8%ADnext%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AEmermaid"><span class="nav-text"> 2. Hexo中Next主题配置Mermaid</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-mermaid%E7%94%BB%E5%9B%BE%E6%95%88%E6%9E%9C%E6%BC%94%E7%A4%BA"><span class="nav-text"> 3. Mermaid画图效果演示</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -154,13 +154,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -255,26 +255,33 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="1-前言"><a href="#1-前言" class="headerlink" title="1. 前言"></a>1. 前言</h1><ul>
+    <div class="post-body" itemprop="articleBody"><h1 id="1-前言"><a class="markdownIt-Anchor" href="#1-前言"></a> 1. 前言</h1>
+<ul>
 <li><big><strong>碎碎念</strong></big>:握草，刚刚发现markdown里面居然可以画图，我刚才想让chatgpt给我花流程图，他给我发了一串什么的代码，之前也是发，但我没注意，这次看了后无意见贴到了Typora中，发现居然是图形，太酷了。</li>
 <li>Mermaid 是一个基于 JavaScript 的图表绘制工具，它使用 Markdown 启发的文本定义和渲染器来创建和修改复杂的图表。[Mermaid中文官网](<a target="_blank" rel="noopener" href="https://mermaid.nodejs.cn/intro/">关于 Mermaid | Mermaid 中文网 (nodejs.cn)</a>)</li>
 <li>Mermaid用法我还不太会</li>
 </ul>
-<h1 id="2-Hexo中Next主题配置Mermaid"><a href="#2-Hexo中Next主题配置Mermaid" class="headerlink" title="2. Hexo中Next主题配置Mermaid"></a>2. Hexo中Next主题配置Mermaid</h1><p>升级Hexo到V6.x, 升级NexT版本到V8.11.0后，无需通过安装插件使用，只需修改NexT配置文件，修改Hexo配置文件即可。</p>
+<h1 id="2-hexo中next主题配置mermaid"><a class="markdownIt-Anchor" href="#2-hexo中next主题配置mermaid"></a> 2. Hexo中Next主题配置Mermaid</h1>
+<p>升级Hexo到V6.x, 升级NexT版本到V8.11.0后，无需通过安装插件使用，只需修改NexT配置文件，修改Hexo配置文件即可。</p>
 <p><big><strong><a target="_blank" rel="noopener" href="https://theme-next.js.org/docs/tag-plugins/mermaid.html">参考链接</a></strong></big></p>
 <ul>
-<li><p><big><strong>步骤一：</strong></big>修改next主题配置文件_config.xml，只需mermaid的值由<code>false -&gt; true</code>即可</p>
+<li>
+<p><big><strong>步骤一：</strong></big>修改next主题配置文件_config.xml，只需mermaid的值由<code>false -&gt; true</code>即可</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># Mermaid tag</span><br><span class="line">mermaid:</span><br><span class="line">  enable: true</span><br><span class="line">  # Available themes: default | dark | forest | neutral</span><br><span class="line">  theme:</span><br><span class="line">    light: default</span><br><span class="line">    dark: dark</span><br></pre></td></tr></table></figure>
 </li>
-<li><p><big><strong>步骤二：</strong></big>修改hexo的配置文件_config.xml，找到highlight，<strong>手动添加</strong>内容</p>
+<li>
+<p><big><strong>步骤二：</strong></big>修改hexo的配置文件_config.xml，找到highlight，<strong>手动添加</strong>内容</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">highlight:</span><br><span class="line">  exclude_languages:</span><br><span class="line">    - mermaid</span><br></pre></td></tr></table></figure>
 </li>
-<li><p><big><strong>步骤三：</strong></big>执行<code>hexo cl</code>和<code>hexo g</code>命令行重新生成页面即可。</p>
+<li>
+<p><big><strong>步骤三：</strong></big>执行<code>hexo cl</code>和<code>hexo g</code>命令行重新生成页面即可。</p>
 </li>
 </ul>
-<h1 id="3-Mermaid画图效果演示"><a href="#3-Mermaid画图效果演示" class="headerlink" title="3. Mermaid画图效果演示"></a>3. Mermaid画图效果演示</h1><p>[简单教程（非官方）](<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/355997933">Mermaid从入门到入土——Markdown进阶语法 - 知乎 (zhihu.com)</a>)</p>
+<h1 id="3-mermaid画图效果演示"><a class="markdownIt-Anchor" href="#3-mermaid画图效果演示"></a> 3. Mermaid画图效果演示</h1>
+<p>[简单教程（非官方）](<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/355997933">Mermaid从入门到入土——Markdown进阶语法 - 知乎 (zhihu.com)</a>)</p>
 <ul>
-<li><p>朱元璋家谱简图，圆圈代表皇帝</p>
+<li>
+<p>朱元璋家谱简图，圆圈代表皇帝</p>
 <pre><code class="highlight mermaid">graph LR
 emperor((朱八八))-.子.-&gt;朱五四-.子.-&gt;朱四九-.子.-&gt;朱百六
 
@@ -286,20 +293,23 @@ emperor2((朱允炆))--次子--&gt;朱标
 emperor3((朱棣))--四子--&gt;emperor
 emperor4((朱高炽))--长子--&gt;emperor3</code></pre>
 </li>
-<li><p>饼状图</p>
+<li>
+<p>饼状图</p>
 <pre><code class="highlight mermaid">pie
     title 为什么总是宅在家里？
     &quot;喜欢宅&quot; : 15
     &quot;天气太热或太冷&quot; : 20
     &quot;穷&quot; : 500</code></pre>
 </li>
-<li><p>流程图</p>
+<li>
+<p>流程图</p>
 <pre><code class="highlight mermaid">graph LR
     A[Start] --&gt; B&#123;Is it?&#125;;
     B -- Yes --&gt; C[OK];
     C --&gt; D[Rethink];
     D --&gt; B;
-    B -- No ----&gt; E[End];</code></pre></li>
+    B -- No ----&gt; E[End];</code></pre>
+</li>
 </ul>
 
     </div>

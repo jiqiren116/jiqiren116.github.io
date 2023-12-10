@@ -155,13 +155,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -256,9 +256,8 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><p> 写完文章后目录中的编号在Typora中没问题，但在网页查看后出现了数字编号重复出现的问题，错误如下图：</p>
+    <div class="post-body" itemprop="articleBody"><p>写完文章后目录中的编号在Typora中没问题，但在网页查看后出现了数字编号重复出现的问题，错误如下图：</p>
 <img src="/img/文章目录显示错误.png" />
-
 <p>感觉这个错误很扯淡，在<code>csdn</code>上找到了解决办法：</p>
 <blockquote>
 <p>打开<code>next</code>主题下的<code>_config.yml</code>配置文件，将<code>toc</code>部分中的<code>number</code>的值改为<code>false</code>，原值为true，会自动为目录添加数字序号。</p>
