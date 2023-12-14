@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jiqiren116.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="这是一个SpringMVC的入门案例，还讲述了SpringMVC的工作流程和bean的加载控制。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringMVC入门">
+<meta property="og:url" content="http://jiqiren116.github.io/2023/12/14/SpringMVC%E5%85%A5%E9%97%A8/index.html">
+<meta property="og:site_name" content="robot-x Blog">
+<meta property="og:description" content="这是一个SpringMVC的入门案例，还讲述了SpringMVC的工作流程和bean的加载控制。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://jiqiren116.github.io/2023/12/14/SpringMVC%E5%85%A5%E9%97%A8/1630427303762.png">
+<meta property="og:image" content="http://jiqiren116.github.io/2023/12/14/SpringMVC%E5%85%A5%E9%97%A8/1630427769938.png">
+<meta property="og:image" content="http://jiqiren116.github.io/2023/12/14/SpringMVC%E5%85%A5%E9%97%A8/1630432494752.png">
+<meta property="article:published_time" content="2023-12-14T05:42:43.000Z">
+<meta property="article:modified_time" content="2023-12-14T05:58:11.773Z">
+<meta property="article:author" content="robot-x">
+<meta property="article:tag" content="SpringMVC">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://jiqiren116.github.io/2023/12/14/SpringMVC%E5%85%A5%E9%97%A8/1630427303762.png">
+
+
+<link rel="canonical" href="http://jiqiren116.github.io/2023/12/14/SpringMVC%E5%85%A5%E9%97%A8/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://jiqiren116.github.io/2023/12/14/SpringMVC%E5%85%A5%E9%97%A8/","path":"2023/12/14/SpringMVC入门/","title":"SpringMVC入门"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>SpringMVC入门 | robot-x Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">robot-x Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>时间线</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-springmvc%E6%A6%82%E8%BF%B0"><span class="nav-text"> 1. SpringMVC概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-springmvc%E5%85%A5%E9%97%A8%E6%A1%88%E4%BE%8B"><span class="nav-text"> 2. SpringMVC入门案例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#21-%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90"><span class="nav-text"> 2.1 需求分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#22-%E6%A1%88%E4%BE%8B%E5%88%B6%E4%BD%9C"><span class="nav-text"> 2.2 案例制作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A41%E5%88%9B%E5%BB%BAmaven%E9%A1%B9%E7%9B%AE"><span class="nav-text"> 步骤1:创建Maven项目</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A42%E8%A1%A5%E5%85%A8%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="nav-text"> 步骤2:补全目录结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A43%E5%AF%BC%E5%85%A5jar%E5%8C%85"><span class="nav-text"> 步骤3:导入jar包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A44%E5%88%9B%E5%BB%BAcontroller%E7%B1%BB"><span class="nav-text"> 步骤4:创建Controller类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A45%E5%88%9B%E5%BB%BA%E9%85%8D%E7%BD%AE%E7%B1%BB"><span class="nav-text"> 步骤5:创建配置类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A46%E4%BD%BF%E7%94%A8%E9%85%8D%E7%BD%AE%E7%B1%BB%E6%9B%BF%E6%8D%A2webxml"><span class="nav-text"> 步骤6:使用配置类替换web.xml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A47%E9%85%8D%E7%BD%AEtomcat%E7%8E%AF%E5%A2%83"><span class="nav-text"> 步骤7:配置Tomcat环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A48%E5%90%AF%E5%8A%A8%E8%BF%90%E8%A1%8C%E9%A1%B9%E7%9B%AE"><span class="nav-text"> 步骤8:启动运行项目</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A49%E6%B5%8F%E8%A7%88%E5%99%A8%E8%AE%BF%E9%97%AE"><span class="nav-text"> 步骤9:浏览器访问</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B91controller"><span class="nav-text"> 知识点1：@Controller</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B92requestmapping"><span class="nav-text"> 知识点2：@RequestMapping</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B93responsebody"><span class="nav-text"> 知识点3：@ResponseBody</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#23-%E5%85%A5%E9%97%A8%E6%A1%88%E4%BE%8B%E6%80%BB%E7%BB%931n"><span class="nav-text"> 2.3 入门案例总结（1+N）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#24-%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B%E8%A7%A3%E6%9E%90"><span class="nav-text"> 2.4 工作流程解析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#241-%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%9D%E5%A7%8B%E5%8C%96%E8%BF%87%E7%A8%8B"><span class="nav-text"> 2.4.1 启动服务器初始化过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#242-%E5%8D%95%E6%AC%A1%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B"><span class="nav-text"> 2.4.2 单次请求过程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#25-bean%E5%8A%A0%E8%BD%BD%E6%8E%A7%E5%88%B6"><span class="nav-text"> 2.5 bean加载控制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#251-%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90"><span class="nav-text"> 2.5.1 问题分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#252-%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90"><span class="nav-text"> 2.5.2 思路分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#254-%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="nav-text"> 2.5.4 环境准备</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#255-%E8%AE%BE%E7%BD%AEbean%E5%8A%A0%E8%BD%BD%E6%8E%A7%E5%88%B6"><span class="nav-text"> 2.5.5 设置bean加载控制</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B91componentscan"><span class="nav-text"> 知识点1：@ComponentScan</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="robot-x"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">robot-x</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jiqiren116" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jiqiren116" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1139401422@qq.com" title="E-Mail → mailto:1139401422@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/1139401422" title="QQ → 1139401422" rel="noopener me"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jiqiren116.github.io/2023/12/14/SpringMVC%E5%85%A5%E9%97%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="robot-x">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="robot-x Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="SpringMVC入门 | robot-x Blog">
+      <meta itemprop="description" content="这是一个SpringMVC的入门案例，还讲述了SpringMVC的工作流程和bean的加载控制。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SpringMVC入门
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-12-14 13:42:43 / 修改时间：13:58:11" itemprop="dateCreated datePublished" datetime="2023-12-14T13:42:43+08:00">2023-12-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java/SpringMVC/" itemprop="url" rel="index"><span itemprop="name">SpringMVC</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">这是一个SpringMVC的入门案例，还讲述了SpringMVC的工作流程和bean的加载控制。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>SpringMVC是隶属于Spring框架的一部分，主要是用来进行Web开发，是对Servlet进行了封装。</p>
+<p>SpringMVC是处于Web层的框架，所以其主要的作用就是用来接收前端发过来的请求和数据然后经过处理并将处理的结果响应给前端，所以如何处理请求和响应是SpringMVC中非常重要的一块内容。</p>
+<h2 id="1-springmvc概述"><a class="markdownIt-Anchor" href="#1-springmvc概述"></a> 1. SpringMVC概述</h2>
+<p>学习SpringMVC先来回顾下现在web程序是如何做的，现在web程序大都基于三层架构来实现。</p>
+<p>三层架构</p>
+<p><img src="1630427303762.png" alt="1630427303762" /></p>
+<ul>
+<li>
+<p>浏览器发送一个请求给后端服务器，后端服务器现在是使用Servlet来接收请求和数据</p>
+</li>
+<li>
+<p>如果所有的处理都交给Servlet来处理的话，所有的东西都耦合在一起，对后期的维护和扩展极为不利</p>
+</li>
+<li>
+<p>将后端服务器Servlet拆分成三层，分别是<code>web</code>、<code>service</code>和<code>dao</code></p>
+<ul>
+<li>web层主要由servlet来处理，负责页面请求和数据的收集以及响应结果给前端</li>
+<li>service层主要负责业务逻辑的处理</li>
+<li>dao层主要负责数据的增删改查操作</li>
+</ul>
+</li>
+<li>
+<p>servlet处理请求和数据的时候，存在的问题是一个servlet只能处理一个请求</p>
+</li>
+<li>
+<p>针对web层进行了优化，采用了MVC设计模式，将其设计为<code>controller</code>、<code>view</code>和<code>Model</code></p>
+<ul>
+<li>controller负责请求和数据的接收，接收后将其转发给service进行业务处理</li>
+<li>service根据需要会调用dao对数据进行增删改查</li>
+<li>dao把数据处理完后将结果交给service,service再交给controller</li>
+<li>controller根据需求组装成Model和View,Model和View组合起来生成页面转发给前端浏览器</li>
+<li>这样做的好处就是controller可以处理多个请求，并对请求进行分发，执行不同的业务操作。</li>
+</ul>
+</li>
+</ul>
+<p>随着互联网的发展，上面的模式因为是同步调用，性能慢慢的跟不是需求，所以异步调用慢慢的走到了前台，是现在比较流行的一种处理方式。</p>
+<p><img src="1630427769938.png" alt="1630427769938" /></p>
+<ul>
+<li>因为是异步调用，所以后端不需要返回view视图，将其去除</li>
+<li>前端如果通过异步调用的方式进行交互，后台就需要将返回的数据转换成json格式进行返回</li>
+<li>SpringMVC<mark>主要</mark>负责的就是
+<ul>
+<li>controller如何接收请求和数据</li>
+<li>如何将请求和数据转发给业务层</li>
+<li>如何将响应数据转换成json发回到前端</li>
+</ul>
+</li>
+</ul>
+<p>介绍了这么多，对SpringMVC进行一个定义</p>
+<ul>
+<li>
+<p>SpringMVC是一种基于Java实现MVC模型的轻量级Web框架</p>
+</li>
+<li>
+<p>优点</p>
+<ul>
+<li>使用简单、开发便捷(相比于Servlet)</li>
+<li>灵活性强</li>
+</ul>
+<p>这里所说的优点，就需要在使用的过程中慢慢体会。</p>
+</li>
+</ul>
+<h2 id="2-springmvc入门案例"><a class="markdownIt-Anchor" href="#2-springmvc入门案例"></a> 2. SpringMVC入门案例</h2>
+<p>因为SpringMVC是一个Web框架，将来是要替换Servlet,所以先来回顾下以前Servlet是如何进行开发的?</p>
+<p>1.创建web工程(Maven结构)</p>
+<p>2.设置tomcat服务器，加载web工程(tomcat插件)</p>
+<p>3.导入坐标(Servlet)</p>
+<p>4.定义处理请求的功能类(UserServlet)</p>
+<p>5.设置请求映射(配置映射关系)</p>
+<p>SpringMVC的制作过程和上述流程几乎是一致的，具体的实现流程是什么?</p>
+<p>1.创建web工程(Maven结构)</p>
+<p>2.设置tomcat服务器，加载web工程(tomcat插件)</p>
+<p>3.导入坐标(<mark>SpringMVC</mark>+Servlet)</p>
+<p>4.定义处理请求的功能类(<mark>UserController</mark>)</p>
+<p>5.<mark>设置请求映射(配置映射关系)</mark></p>
+<p>6.<mark>将SpringMVC设定加载到Tomcat容器中</mark></p>
+<h3 id="21-需求分析"><a class="markdownIt-Anchor" href="#21-需求分析"></a> 2.1 需求分析</h3>
+<h3 id="22-案例制作"><a class="markdownIt-Anchor" href="#22-案例制作"></a> 2.2 案例制作</h3>
+<h4 id="步骤1创建maven项目"><a class="markdownIt-Anchor" href="#步骤1创建maven项目"></a> 步骤1:创建Maven项目</h4>
+<p>打开IDEA,创建一个新的web项目</p>
+<h4 id="步骤2补全目录结构"><a class="markdownIt-Anchor" href="#步骤2补全目录结构"></a> 步骤2:补全目录结构</h4>
+<p>因为使用骨架创建的项目结构不完整，需要手动补全</p>
+<h4 id="步骤3导入jar包"><a class="markdownIt-Anchor" href="#步骤3导入jar包"></a> 步骤3:导入jar包</h4>
+<p>将pom.xml中多余的内容删除掉，再添加SpringMVC需要的依赖</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span><br><span class="line">&lt;project xmlns=<span class="string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span> xmlns:xsi=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span><br><span class="line">  xsi:schemaLocation=<span class="string">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span>&gt;</span><br><span class="line">  &lt;modelVersion&gt;<span class="number">4.0</span><span class="number">.0</span>&lt;/modelVersion&gt;</span><br><span class="line">  &lt;groupId&gt;com.itheima&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;springmvc_01_quickstart&lt;/artifactId&gt;</span><br><span class="line">  &lt;version&gt;<span class="number">1.0</span>-SNAPSHOT&lt;/version&gt;</span><br><span class="line">  &lt;packaging&gt;war&lt;/packaging&gt;</span><br><span class="line"></span><br><span class="line">  &lt;dependencies&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">      &lt;groupId&gt;javax.servlet&lt;/groupId&gt;</span><br><span class="line">      &lt;artifactId&gt;javax.servlet-api&lt;/artifactId&gt;</span><br><span class="line">      &lt;version&gt;<span class="number">3.1</span><span class="number">.0</span>&lt;/version&gt;</span><br><span class="line">      &lt;scope&gt;provided&lt;/scope&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">      &lt;groupId&gt;org.springframework&lt;/groupId&gt;</span><br><span class="line">      &lt;artifactId&gt;spring-webmvc&lt;/artifactId&gt;</span><br><span class="line">      &lt;version&gt;<span class="number">5.2</span><span class="number">.10</span>.RELEASE&lt;/version&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">  &lt;/dependencies&gt;</span><br><span class="line"></span><br><span class="line">  &lt;build&gt;</span><br><span class="line">    &lt;plugins&gt;</span><br><span class="line">      &lt;plugin&gt;</span><br><span class="line">        &lt;groupId&gt;org.apache.tomcat.maven&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;tomcat7-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;<span class="number">2.1</span>&lt;/version&gt;</span><br><span class="line">        &lt;configuration&gt;</span><br><span class="line">          &lt;port&gt;<span class="number">80</span>&lt;/port&gt;</span><br><span class="line">          &lt;path&gt;/&lt;/path&gt;</span><br><span class="line">        &lt;/configuration&gt;</span><br><span class="line">      &lt;/plugin&gt;</span><br><span class="line">    &lt;/plugins&gt;</span><br><span class="line">  &lt;/build&gt;</span><br><span class="line">&lt;/project&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>**说明:**servlet的坐标为什么需要添加<code>&lt;scope&gt;provided&lt;/scope&gt;</code>?</p>
+<ul>
+<li>
+<p>scope是maven中jar包依赖作用范围的描述，</p>
+</li>
+<li>
+<p>如果不设置默认是<code>compile</code>在在编译、运行、测试时均有效</p>
+</li>
+<li>
+<p>如果运行有效的话就会和tomcat中的servlet-api包发生冲突，导致启动报错</p>
+</li>
+<li>
+<p>provided代表的是该包只在编译和测试的时候用，运行的时候无效直接使用tomcat中的，就避免冲突</p>
+</li>
+</ul>
+<h4 id="步骤4创建controller类"><a class="markdownIt-Anchor" href="#步骤4创建controller类"></a> 步骤4:创建Controller类</h4>
+<ul>
+<li>创建SpringMVC控制器（等同于Servlet功能）</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserController</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@RequestMapping(&quot;/save&quot;)</span></span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">save</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;user save ...&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;&#123;&#x27;info&#x27;:&#x27;springmvc&#x27;&#125;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="步骤5创建配置类"><a class="markdownIt-Anchor" href="#步骤5创建配置类"></a> 步骤5:创建配置类</h4>
+<ul>
+<li>初始化SpringMVC环境（同Spring环境），设定SpringMVC加载对应的bean</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ComponentScan(&quot;com.itheima.controller&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SpringMvcConfig</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="步骤6使用配置类替换webxml"><a class="markdownIt-Anchor" href="#步骤6使用配置类替换webxml"></a> 步骤6:使用配置类替换web.xml</h4>
+<p>将web.xml删除，换成ServletContainersInitConfig</p>
+<ul>
+<li>初始化Servlet<mark>容器</mark>，加载SpringMVC环境，并设置SpringMVC技术处理的请求</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ServletContainersInitConfig</span> <span class="keyword">extends</span> <span class="title class_">AbstractDispatcherServletInitializer</span> &#123;</span><br><span class="line">    <span class="comment">//加载springmvc配置类</span></span><br><span class="line">    <span class="keyword">protected</span> WebApplicationContext <span class="title function_">createServletApplicationContext</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">//初始化WebApplicationContext对象</span></span><br><span class="line">        <span class="type">AnnotationConfigWebApplicationContext</span> <span class="variable">ctx</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AnnotationConfigWebApplicationContext</span>();</span><br><span class="line">        <span class="comment">//加载指定配置类</span></span><br><span class="line">        ctx.register(SpringMvcConfig.class);</span><br><span class="line">        <span class="keyword">return</span> ctx;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//设置由springmvc控制器处理的请求映射路径</span></span><br><span class="line">    <span class="keyword">protected</span> String[] getServletMappings() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">String</span>[]&#123;<span class="string">&quot;/&quot;</span>&#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//加载spring配置类</span></span><br><span class="line">    <span class="keyword">protected</span> WebApplicationContext <span class="title function_">createRootApplicationContext</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="步骤7配置tomcat环境"><a class="markdownIt-Anchor" href="#步骤7配置tomcat环境"></a> 步骤7:配置Tomcat环境</h4>
+<h4 id="步骤8启动运行项目"><a class="markdownIt-Anchor" href="#步骤8启动运行项目"></a> 步骤8:启动运行项目</h4>
+<h4 id="步骤9浏览器访问"><a class="markdownIt-Anchor" href="#步骤9浏览器访问"></a> 步骤9:浏览器访问</h4>
+<p>浏览器输入<code>http://localhost/save</code>进行访问，浏览器:显示以下信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#x27;info&#x27;:&#x27;springmvc&#x27;&#125;</span><br></pre></td></tr></table></figure>
+<p>控制台输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user save ...</span><br></pre></td></tr></table></figure>
+<p><strong>注意事项</strong></p>
+<ul>
+<li>SpringMVC是基于Spring的，在pom.xml只导入了<code>spring-webmvc</code>jar包的原因是它会自动依赖spring相关坐标</li>
+<li><code>AbstractDispatcherServletInitializer</code>类是SpringMVC提供的快速初始化Web3.0容器的抽象类</li>
+<li><code>AbstractDispatcherServletInitializer</code>提供了三个接口方法供用户实现
+<ul>
+<li><code>createServletApplicationContext</code>，创建Servlet容器时，加载SpringMVC对应的bean并放入WebApplicationContext对象范围中，而WebApplicationContext的作用范围为ServletContext范围，即整个web容器范围</li>
+<li><code>getServletMappings</code>方法，设定SpringMVC对应的请求映射路径，即SpringMVC拦截哪些请求</li>
+<li>createRootApplicationContext方法，如果创建Servlet容器时需要加载非SpringMVC对应的bean,使用当前方法进行，使用方式和createServletApplicationContext相同。</li>
+<li>createServletApplicationContext用来加载SpringMVC环境</li>
+<li>createRootApplicationContext用来加载Spring环境</li>
+</ul>
+</li>
+</ul>
+<h3 id="知识点1controller"><a class="markdownIt-Anchor" href="#知识点1controller"></a> 知识点1：@Controller</h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>@Controller</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>类型</td>
+<td>类注解</td>
+</tr>
+<tr>
+<td>位置</td>
+<td>SpringMVC控制器类定义上方</td>
+</tr>
+<tr>
+<td>作用</td>
+<td>设定SpringMVC的核心控制器bean</td>
+</tr>
+</tbody>
+</table>
+<h3 id="知识点2requestmapping"><a class="markdownIt-Anchor" href="#知识点2requestmapping"></a> 知识点2：@RequestMapping</h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>@RequestMapping</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>类型</td>
+<td>类注解或方法注解</td>
+</tr>
+<tr>
+<td>位置</td>
+<td>SpringMVC控制器类或方法定义上方</td>
+</tr>
+<tr>
+<td>作用</td>
+<td>设置当前控制器方法请求访问路径</td>
+</tr>
+<tr>
+<td>相关属性</td>
+<td>value(默认)，请求访问路径</td>
+</tr>
+</tbody>
+</table>
+<h3 id="知识点3responsebody"><a class="markdownIt-Anchor" href="#知识点3responsebody"></a> 知识点3：@ResponseBody</h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>@ResponseBody</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>类型</td>
+<td>类注解或方法注解</td>
+</tr>
+<tr>
+<td>位置</td>
+<td>SpringMVC控制器类或方法定义上方</td>
+</tr>
+<tr>
+<td>作用</td>
+<td>设置当前控制器方法响应内容为当前返回值，无需解析</td>
+</tr>
+</tbody>
+</table>
+<h3 id="23-入门案例总结1n"><a class="markdownIt-Anchor" href="#23-入门案例总结1n"></a> 2.3 入门案例总结（1+N）</h3>
+<ul>
+<li>一次性工作
+<ul>
+<li>创建工程，设置服务器，加载工程</li>
+<li>导入坐标</li>
+<li>创建web容器启动类，加载SpringMVC配置，并设置SpringMVC请求拦截路径</li>
+<li>SpringMVC核心配置类（设置配置类，扫描controller包，加载Controller控制器bean）</li>
+</ul>
+</li>
+<li>多次工作
+<ul>
+<li>定义处理请求的控制器类</li>
+<li>定义处理请求的控制器方法，并配置映射路径（@RequestMapping）与返回json数据（@ResponseBody）</li>
+</ul>
+</li>
+</ul>
+<h3 id="24-工作流程解析"><a class="markdownIt-Anchor" href="#24-工作流程解析"></a> 2.4 工作流程解析</h3>
+<p>为了更好的使用SpringMVC,将SpringMVC的使用过程总共分两个阶段来分析，分别是<code>启动服务器初始化过程</code>和<code>单次请求过程</code></p>
+<p><img src="1630432494752.png" alt="1630432494752" /></p>
+<h4 id="241-启动服务器初始化过程"><a class="markdownIt-Anchor" href="#241-启动服务器初始化过程"></a> 2.4.1 启动服务器初始化过程</h4>
+<ol>
+<li>
+<p>服务器启动，执行ServletContainersInitConfig类，初始化web容器</p>
+<ul>
+<li>功能类似于以前的web.xml</li>
+</ul>
+</li>
+<li>
+<p>执行createServletApplicationContext方法，创建了WebApplicationContext对象</p>
+<p>WebApplicationContext是一个特殊的ApplicationContext，用于在web应用程序中加载和管理bean。在SpringMVC中，它负责加载和初始化SpringMVC的容器。</p>
+<ul>
+<li>该方法加载SpringMVC的配置类SpringMvcConfig来初始化SpringMVC的容器</li>
+</ul>
+</li>
+<li>
+<p>加载SpringMvcConfig配置类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">@ComponentScan(&quot;com.itheima.controller&quot;)</span><br><span class="line">public class SpringMvcConfig &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>执行@ComponentScan加载对应的bean</p>
+<ul>
+<li>扫描指定包及其子包下所有类上的注解，如Controller类上的@Controller注解</li>
+</ul>
+</li>
+<li>
+<p>加载UserController，每个@RequestMapping的名称对应一个具体的方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@Controller</span><br><span class="line">public class UserController &#123;</span><br><span class="line">    @RequestMapping(&quot;/save&quot;)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public String save() &#123;</span><br><span class="line">        System.out.println(&quot;user save ...&quot;);</span><br><span class="line">        return &quot;&#123;&#x27;info&#x27;:&#x27;springmvc&#x27;&#125;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>此时就建立了 <code>/save</code> 和 save方法的对应关系</li>
+</ul>
+</li>
+<li>
+<p>执行getServletMappings方法，设定SpringMVC拦截请求的路径规则</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">protected String[] getServletMappings() &#123;</span><br><span class="line">        return new String[]&#123;&quot;/&quot;&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>/</code>代表所拦截请求的路径规则，只有被拦截后才能交给SpringMVC来处理请求</li>
+</ul>
+</li>
+</ol>
+<h4 id="242-单次请求过程"><a class="markdownIt-Anchor" href="#242-单次请求过程"></a> 2.4.2 单次请求过程</h4>
+<ol>
+<li>发送请求<code>http://localhost/save</code></li>
+<li>web容器发现该请求满足SpringMVC拦截规则，将请求交给SpringMVC处理</li>
+<li>解析请求路径/save</li>
+<li>由/save匹配执行对应的方法save(）
+<ul>
+<li>上面的第五步已经将请求路径和方法建立了对应关系，通过/save就能找到对应的save方法</li>
+</ul>
+</li>
+<li>执行save()</li>
+<li>检测到有@ResponseBody直接将save()方法的返回值作为响应体返回给请求方</li>
+</ol>
+<h3 id="25-bean加载控制"><a class="markdownIt-Anchor" href="#25-bean加载控制"></a> 2.5 bean加载控制</h3>
+<h4 id="251-问题分析"><a class="markdownIt-Anchor" href="#251-问题分析"></a> 2.5.1 问题分析</h4>
+<p>入门案例的内容已经做完了，在入门案例中创建过一个<code>SpringMvcConfig</code>的配置类，再回想前面学习Spring的时候也创建过一个配置类<code>SpringConfig</code>。这两个配置类都需要加载资源，那么它们分别都需要加载哪些内容?</p>
+<p>先来看下目前的项目目录结构:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">com</span><br><span class="line">└── itheima</span><br><span class="line">    ├── config</span><br><span class="line">    |</span><br><span class="line">    ├── controller</span><br><span class="line">    |</span><br><span class="line">    ├── service</span><br><span class="line">    |</span><br><span class="line">    └── dao</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>config目录存入的是配置类,写过的配置类有:</p>
+<ul>
+<li>ServletContainersInitConfig</li>
+<li>SpringConfig</li>
+<li>SpringMvcConfig</li>
+<li>JdbcConfig</li>
+<li>MybatisConfig</li>
+</ul>
+</li>
+<li>
+<p>controller目录存放的是SpringMVC的controller类</p>
+</li>
+<li>
+<p>service目录存放的是service接口和实现类</p>
+</li>
+<li>
+<p>dao目录存放的是dao/Mapper接口</p>
+</li>
+</ul>
+<p>controller、service和dao这些类都需要被容器管理成bean对象，那么到底是该让SpringMVC加载还是让Spring加载呢?</p>
+<ul>
+<li>SpringMVC加载其相关bean(表现层bean),也就是controller包下的类</li>
+<li>Spring控制的bean
+<ul>
+<li>业务bean(Service)</li>
+<li>功能bean(DataSource,SqlSessionFactoryBean,MapperScannerConfigurer等)</li>
+</ul>
+</li>
+</ul>
+<p>分析清楚谁该管哪些bean以后，接下来要解决的问题是如何让Spring和SpringMVC分开加载各自的内容。</p>
+<p>在SpringMVC的配置类<code>SpringMvcConfig</code>中使用注解<code>@ComponentScan</code>，只需要将其扫描范围设置到controller即可，如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">@ComponentScan(&quot;com.itheima.controller&quot;)</span><br><span class="line">public class SpringMvcConfig &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在Spring的配置类<code>SpringConfig</code>中使用注解<code>@ComponentScan</code>,当时扫描的范围中其实是已经包含了controller,如:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@ComponentScan(value=&quot;com.itheima&quot;)</span><br><span class="line">public class SpringMvcConfig &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从包结构来看的话，Spring已经多把SpringMVC的controller类也给扫描到，所以针对这个问题该如何解决，就是接下来要学习的内容。</p>
+<p>概括的描述下现在的问题就是<mark>因为功能不同，如何避免Spring错误加载到SpringMVC的bean?</mark></p>
+<h4 id="252-思路分析"><a class="markdownIt-Anchor" href="#252-思路分析"></a> 2.5.2 思路分析</h4>
+<p>针对上面的问题，解决方案也比较简单，就是:</p>
+<ul>
+<li>加载Spring控制的bean的时候排除掉SpringMVC控制的bean</li>
+</ul>
+<p>具体该如何排除：</p>
+<ul>
+<li>方式一:Spring加载的bean设定扫描范围为精准范围，例如service包、dao包等</li>
+<li>方式二:Spring加载的bean设定扫描范围为com.itheima,排除掉controller包中的bean</li>
+<li>方式三:不区分Spring与SpringMVC的环境，加载到同一个环境中[了解即可]</li>
+</ul>
+<h4 id="254-环境准备"><a class="markdownIt-Anchor" href="#254-环境准备"></a> 2.5.4 环境准备</h4>
+<ul>
+<li>
+<p>创建一个Web的Maven项目</p>
+</li>
+<li>
+<p>pom.xml添加Spring依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span> <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.itheima<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springmvc_02_bean_load<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">packaging</span>&gt;</span>war<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.servlet<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>javax.servlet-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">scope</span>&gt;</span>provided<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-webmvc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.2.10.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>druid<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.1.16<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mybatis<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.5.6<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.1.47<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-jdbc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.2.10.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mybatis<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-spring<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.3.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.tomcat.maven<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>tomcat7-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">port</span>&gt;</span>80<span class="tag">&lt;/<span class="name">port</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">path</span>&gt;</span>/<span class="tag">&lt;/<span class="name">path</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>创建对应的配置类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ServletContainersInitConfig</span> <span class="keyword">extends</span> <span class="title class_">AbstractDispatcherServletInitializer</span> &#123;</span><br><span class="line">    <span class="keyword">protected</span> WebApplicationContext <span class="title function_">createServletApplicationContext</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">AnnotationConfigWebApplicationContext</span> <span class="variable">ctx</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AnnotationConfigWebApplicationContext</span>();</span><br><span class="line">        ctx.register(SpringMvcConfig.class);</span><br><span class="line">        <span class="keyword">return</span> ctx;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">protected</span> String[] getServletMappings() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">String</span>[]&#123;<span class="string">&quot;/&quot;</span>&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">protected</span> WebApplicationContext <span class="title function_">createRootApplicationContext</span><span class="params">()</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ComponentScan(&quot;com.itheima.controller&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SpringMvcConfig</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ComponentScan(&quot;com.itheima&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SpringConfig</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>编写Controller，Service，Dao，Domain类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping(&quot;/save&quot;)</span></span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">save</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;user save ...&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;&#123;&#x27;info&#x27;:&#x27;springmvc&#x27;&#125;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UserService</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">save</span><span class="params">(User user)</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserServiceImpl</span> <span class="keyword">implements</span> <span class="title class_">UserService</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">save</span><span class="params">(User user)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;user service ...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UserDao</span> &#123;</span><br><span class="line">    <span class="meta">@Insert(&quot;insert into tbl_user(name,age)values(#&#123;name&#125;,#&#123;age&#125;)&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">save</span><span class="params">(User user)</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">User</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> Integer id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> Integer age;</span><br><span class="line">    <span class="comment">//setter..getter..toString略</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>最终创建好的项目结构如下:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">springmvc_02_bean_load</span><br><span class="line">├── src</span><br><span class="line">│   └── main</span><br><span class="line">│       ├── java</span><br><span class="line">│       │   └── com.itheima</span><br><span class="line">│       │       ├── config</span><br><span class="line">│       │       │   ├── ServletContainersInitConfig.java</span><br><span class="line">│       │       │   ├── SpringConfig.java</span><br><span class="line">│       │       │   └── SpringMvcConfig.java</span><br><span class="line">│       │       ├── controller</span><br><span class="line">│       │       │   └── UserController.java</span><br><span class="line">│       │       ├── dao</span><br><span class="line">│       │       │   └── UserDao.java</span><br><span class="line">│       │       ├── domain</span><br><span class="line">│       │       │   └── User.java</span><br><span class="line">│       │       └── service</span><br><span class="line">│       │           ├── impl</span><br><span class="line">│       │           │   └── UserServicelmpl.java</span><br><span class="line">│       │           └── UserService.java</span><br><span class="line">│       └── resources</span><br><span class="line">│       └── webapp</span><br><span class="line">└── pom.xml</span><br></pre></td></tr></table></figure>
+<h4 id="255-设置bean加载控制"><a class="markdownIt-Anchor" href="#255-设置bean加载控制"></a> 2.5.5 设置bean加载控制</h4>
+<p>方式一:修改Spring配置类，设定扫描范围为精准范围。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ComponentScan(&#123;&quot;com.itheima.service&quot;,&quot;comitheima.dao&quot;&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SpringConfig</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>说明:</strong></p>
+<p>上述只是通过例子说明可以精确指定让Spring扫描对应的包结构，真正在做开发的时候，因为Dao最终是交给<code>MapperScannerConfigurer</code>对象来进行扫描处理的，只需要将其扫描到service包即可。</p>
+<p>方式二:修改Spring配置类，设定扫描范围为com.itheima,排除掉controller包中的bean</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ComponentScan(value=&quot;com.itheima&quot;,</span></span><br><span class="line"><span class="meta">    excludeFilters=@ComponentScan.Filter(</span></span><br><span class="line"><span class="meta">      type = FilterType.ANNOTATION,</span></span><br><span class="line"><span class="meta">        classes = Controller.class</span></span><br><span class="line"><span class="meta">    )</span></span><br><span class="line"><span class="meta">)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SpringConfig</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>excludeFilters属性：设置扫描加载bean时，排除的过滤规则</p>
+</li>
+<li>
+<p>type属性：设置排除规则，当前使用按照bean定义时的注解类型进行排除</p>
+<ul>
+<li>ANNOTATION：按照注解排除</li>
+<li>ASSIGNABLE_TYPE:按照指定的类型过滤</li>
+<li>ASPECTJ:按照Aspectj表达式排除，基本上不会用</li>
+<li>REGEX:按照正则表达式排除</li>
+<li>CUSTOM:按照自定义规则排除</li>
+</ul>
+<p>大家只需要知道第一种ANNOTATION即可</p>
+</li>
+<li>
+<p>classes属性：设置排除的具体注解类，当前设置排除@Controller定义的bean</p>
+</li>
+</ul>
+<p>如何测试controller类已经被排除掉了?</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">App</span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span> <span class="params">(String[] args)</span>&#123;</span><br><span class="line">        <span class="type">AnnotationConfigApplicationContext</span> <span class="variable">ctx</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AnnotationConfigApplicationContext</span>(SpringConfig.class);</span><br><span class="line">        System.out.println(ctx.getBean(UserController.class));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果被排除了，该方法执行就会报bean未被定义的错误</p>
+<p><mark>注意:测试的时候，需要把SpringMvcConfig配置类上的@ComponentScan注解注释掉，否则不会报错</mark></p>
+<p>出现问题的原因是，</p>
+<ul>
+<li>Spring配置类扫描的包是<code>com.itheima</code></li>
+<li>SpringMVC的配置类，<code>SpringMvcConfig</code>上有一个@Configuration注解，也会被Spring扫描到</li>
+<li>SpringMvcConfig上又有一个@ComponentScan，把controller类又给扫描进来了</li>
+<li>所以如果不把@ComponentScan注释掉，Spring配置类将Controller排除，但是因为扫描到SpringMVC的配置类，又将其加载回来，演示的效果就出不来</li>
+<li>解决方案，也简单，把SpringMVC的配置类移出Spring配置类的扫描范围即可。</li>
+</ul>
+<p>最后一个问题，有了Spring的配置类，要想在tomcat服务器启动将其加载，需要修改ServletContainersInitConfig</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ServletContainersInitConfig</span> <span class="keyword">extends</span> <span class="title class_">AbstractDispatcherServletInitializer</span> &#123;</span><br><span class="line">    <span class="keyword">protected</span> WebApplicationContext <span class="title function_">createServletApplicationContext</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">AnnotationConfigWebApplicationContext</span> <span class="variable">ctx</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AnnotationConfigWebApplicationContext</span>();</span><br><span class="line">        ctx.register(SpringMvcConfig.class);</span><br><span class="line">        <span class="keyword">return</span> ctx;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">protected</span> String[] getServletMappings() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">String</span>[]&#123;<span class="string">&quot;/&quot;</span>&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">protected</span> WebApplicationContext <span class="title function_">createRootApplicationContext</span><span class="params">()</span> &#123;</span><br><span class="line">      <span class="type">AnnotationConfigWebApplicationContext</span> <span class="variable">ctx</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AnnotationConfigWebApplicationContext</span>();</span><br><span class="line">        ctx.register(SpringConfig.class);</span><br><span class="line">        <span class="keyword">return</span> ctx;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于上述的配置方式，Spring还提供了一种更简单的配置方式，可以不用再去创建<code>AnnotationConfigWebApplicationContext</code>对象，不用手动<code>register</code>对应的配置类，如何实现?</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ServletContainersInitConfig</span> <span class="keyword">extends</span> <span class="title class_">AbstractAnnotationConfigDispatcherServletInitializer</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> Class&lt;?&gt;[] getRootConfigClasses() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Class</span>[]&#123;SpringConfig.class&#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> Class&lt;?&gt;[] getServletConfigClasses() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Class</span>[]&#123;SpringMvcConfig.class&#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> String[] getServletMappings() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">String</span>[]&#123;<span class="string">&quot;/&quot;</span>&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="知识点1componentscan"><a class="markdownIt-Anchor" href="#知识点1componentscan"></a> 知识点1：@ComponentScan</h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>@ComponentScan</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>类型</td>
+<td>类注解</td>
+</tr>
+<tr>
+<td>位置</td>
+<td>类定义上方</td>
+</tr>
+<tr>
+<td>作用</td>
+<td>设置spring配置类扫描路径，用于加载使用注解格式定义的bean</td>
+</tr>
+<tr>
+<td>相关属性</td>
+<td>excludeFilters:排除扫描路径中加载的bean,需要指定类别(type)和具体项(classes)<br/>includeFilters:加载指定的bean，需要指定类别(type)和具体项(classes)</td>
+</tr>
+</tbody>
+</table>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>robot-x
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://jiqiren116.github.io/2023/12/14/SpringMVC%E5%85%A5%E9%97%A8/" title="SpringMVC入门">http://jiqiren116.github.io/2023/12/14/SpringMVC入门/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/SpringMVC/" rel="tag"># SpringMVC</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/12/13/AOP%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/" rel="prev" title="AOP事务管理">
+                  <i class="fa fa-angle-left"></i> AOP事务管理
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/12/14/SpringMVC%E8%AF%B7%E6%B1%82%E6%95%B0%E6%8D%AE%E5%92%8C%E5%93%8D%E5%BA%94%E6%95%B0%E6%8D%AE/" rel="next" title="SpringMVC请求数据和响应数据">
+                  SpringMVC请求数据和响应数据 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">robot-x</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/jiqiren116" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.5.0/mermaid.min.js","integrity":"sha256-K7oJiQlDulzl24ZUFOywuYme1JqBBvQzK6m8qHjt9Gk="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
