@@ -27,7 +27,7 @@
 <meta property="og:description" content="借鉴网上大佬的知识，实现hexo显示pdf，因为仅电脑端显示pdf较为容易实现，重点介绍电脑和手机均可以显示。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-03-24T12:34:00.000Z">
-<meta property="article:modified_time" content="2024-03-24T12:56:59.869Z">
+<meta property="article:modified_time" content="2024-03-24T13:54:22.329Z">
 <meta property="article:author" content="robot-x">
 <meta property="article:tag" content="hexo">
 <meta name="twitter:card" content="summary">
@@ -233,7 +233,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2024-03-24 20:34:00 / 修改时间：20:56:59" itemprop="dateCreated datePublished" datetime="2024-03-24T20:34:00+08:00">2024-03-24</time>
+      <time title="创建时间：2024-03-24 20:34:00 / 修改时间：21:54:22" itemprop="dateCreated datePublished" datetime="2024-03-24T20:34:00+08:00">2024-03-24</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -270,6 +270,11 @@
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">&quot;/pdfjs/pdfjs/web/viewer.html?file=http://localhost:4000/2024/03/24/JavaGuide面试突击版/JavaGuide面试突击版.pdf&quot;</span> <span class="attr">width</span>=<span class="string">&quot;100%&quot;</span> <span class="attr">height</span>=<span class="string">&quot;750&quot;</span> <span class="attr">frameborder</span>=<span class="string">&quot;0&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>其中src是从source目录开始的，file目录我选择的是网络路径访问，相对路径访问感觉有点麻烦，<mark>关于我是如何确定的网络路径：</mark>，是通过在<code>1.仅电脑端显示pdf</code>中查看浏览器开发者工具确认的。</p>
 <p>因为自己太菜了，就这么简单的一个路径问题搞了好长时间，记录下来当个资料，如果能帮助到别人就更好了。</p>
+<hr />
+<p>唉，在项目实际部署时又遇到了问题，貌似是跨域的问题，上面给出的file路径是localhost本地路径，那部署到github上肯定不行，然后我就改成了自己的github项目目录</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">&quot;/pdfjs/pdfjs/web/viewer.html?file=https://jiqiren116.github.io/2024/03/24/JavaGuide面试突击版/JavaGuide面试突击版.pdf&quot;</span> <span class="attr">width</span>=<span class="string">&quot;100%&quot;</span> <span class="attr">height</span>=<span class="string">&quot;750&quot;</span> <span class="attr">frameborder</span>=<span class="string">&quot;0&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>但还是不行，因为有跨域问题，最后是注释掉了pdfjs中关于跨域的代码才行的。</p>
+<p><mark>参考链接</mark><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44657449/article/details/119894091">pdf.js_pdfjs路径-CSDN博客</a></p>
 
     </div>
 
