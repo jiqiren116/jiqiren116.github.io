@@ -27,7 +27,7 @@
 <meta property="og:description" content="借鉴网上大佬的知识，实现hexo显示pdf，因为仅电脑端显示pdf较为容易实现，重点介绍电脑和手机均可以显示。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-03-24T12:34:00.000Z">
-<meta property="article:modified_time" content="2024-03-24T13:54:22.329Z">
+<meta property="article:modified_time" content="2024-03-24T15:38:18.520Z">
 <meta property="article:author" content="robot-x">
 <meta property="article:tag" content="hexo">
 <meta name="twitter:card" content="summary">
@@ -233,7 +233,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2024-03-24 20:34:00 / 修改时间：21:54:22" itemprop="dateCreated datePublished" datetime="2024-03-24T20:34:00+08:00">2024-03-24</time>
+      <time title="创建时间：2024-03-24 20:34:00 / 修改时间：23:38:18" itemprop="dateCreated datePublished" datetime="2024-03-24T20:34:00+08:00">2024-03-24</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -275,6 +275,14 @@
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">&quot;/pdfjs/pdfjs/web/viewer.html?file=https://jiqiren116.github.io/2024/03/24/JavaGuide面试突击版/JavaGuide面试突击版.pdf&quot;</span> <span class="attr">width</span>=<span class="string">&quot;100%&quot;</span> <span class="attr">height</span>=<span class="string">&quot;750&quot;</span> <span class="attr">frameborder</span>=<span class="string">&quot;0&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>但还是不行，因为有跨域问题，最后是注释掉了pdfjs中关于跨域的代码才行的。</p>
 <p><mark>参考链接</mark><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44657449/article/details/119894091">pdf.js_pdfjs路径-CSDN博客</a></p>
+<hr />
+<p>好吧，又遇到了问题，部署后用手机查看时加载特别慢，要加载好长的时间，根本无法忍受，在网上找了各种办法都不行，想换回第一种方法了，就是只在电脑端显示pdf，在手机端不显示，而是提供了一个下载pdf的按钮，现在在手机端加载太慢严重影响了我的体验。</p>
+<hr />
+<p>2024年3月24日 23:32:28</p>
+<p><mark>参考链接</mark><a target="_blank" rel="noopener" href="https://github.com/mozilla/pdf.js/issues/8897">如何一次只加载一个或几个页面？ ·问题 #8897 ·Mozilla/pdf.js (github.com)</a></p>
+<p>通过查询github终于解决了pdfjs按需加载的问题，修改pdfjs文件夹中的viewer.mjs文件，将以下两个配置由false改为true即可开启pdf按需加载。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//自动获取</span></span><br><span class="line">    <span class="string">&quot;disableAutoFetch&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">&quot;disableStream&quot;</span>: <span class="literal">true</span>,</span><br></pre></td></tr></table></figure>
+<p>那如何确定是否是按需加载呢，可以通过开发者工具查看状态码，状态码为206就是按需加载，浏览的时候也能清楚的发现，不是全部加在，而是看到某一部分时那一部分才开始加载。</p>
 
     </div>
 

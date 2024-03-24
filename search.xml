@@ -2944,8 +2944,7 @@ at com.itheima.App.main(App.java:12)</p>
   <entry>
     <title>JavaGuide面试突击版</title>
     <url>/2024/03/24/JavaGuide%E9%9D%A2%E8%AF%95%E7%AA%81%E5%87%BB%E7%89%88/</url>
-    <content><![CDATA[<p>草泥马</p>
-<!-- 在线显示PDF -->
+    <content><![CDATA[<!-- 在线显示PDF -->
  <!-- 第一种方式，可调整pdf显示的大小，比较灵活,还可以显示目录 -->
  <!-- <embed src="JavaGuide面试突击版.pdf" width="100%" height="600" type="application/pdf"> -->
  <!-- 第二种方式，没有目录显示 -->
@@ -11054,6 +11053,14 @@ String decode = URLDecoder.decode(encode, “ISO-8859-1”);</p>
 <figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">&quot;/pdfjs/pdfjs/web/viewer.html?file=https://jiqiren116.github.io/2024/03/24/JavaGuide面试突击版/JavaGuide面试突击版.pdf&quot;</span> <span class="attr">width</span>=<span class="string">&quot;100%&quot;</span> <span class="attr">height</span>=<span class="string">&quot;750&quot;</span> <span class="attr">frameborder</span>=<span class="string">&quot;0&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>但还是不行，因为有跨域问题，最后是注释掉了pdfjs中关于跨域的代码才行的。</p>
 <p><mark>参考链接</mark><a href="https://blog.csdn.net/weixin_44657449/article/details/119894091">pdf.js_pdfjs路径-CSDN博客</a></p>
+<hr />
+<p>好吧，又遇到了问题，部署后用手机查看时加载特别慢，要加载好长的时间，根本无法忍受，在网上找了各种办法都不行，想换回第一种方法了，就是只在电脑端显示pdf，在手机端不显示，而是提供了一个下载pdf的按钮，现在在手机端加载太慢严重影响了我的体验。</p>
+<hr />
+<p>2024年3月24日 23:32:28</p>
+<p><mark>参考链接</mark><a href="https://github.com/mozilla/pdf.js/issues/8897">如何一次只加载一个或几个页面？ ·问题 #8897 ·Mozilla/pdf.js (github.com)</a></p>
+<p>通过查询github终于解决了pdfjs按需加载的问题，修改pdfjs文件夹中的viewer.mjs文件，将以下两个配置由false改为true即可开启pdf按需加载。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//自动获取</span></span><br><span class="line">    <span class="string">&quot;disableAutoFetch&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">&quot;disableStream&quot;</span>: <span class="literal">true</span>,</span><br></pre></td></tr></table></figure>
+<p>那如何确定是否是按需加载呢，可以通过开发者工具查看状态码，状态码为206就是按需加载，浏览的时候也能清楚的发现，不是全部加在，而是看到某一部分时那一部分才开始加载。</p>
 ]]></content>
       <categories>
         <category>杂七杂八</category>
