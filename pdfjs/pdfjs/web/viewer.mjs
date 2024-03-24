@@ -16593,9 +16593,9 @@ class BasePreferences {
     "viewOnLoad": 0,
     //自动获取
     "disableAutoFetch": true,
+    "disableStream": true,
     "disableFontFace": false,
     "disableRange": false,
-    "disableStream": false,
     "enableXfa": true,
     "viewerCssTheme": 0
   });
