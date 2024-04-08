@@ -12279,4 +12279,20 @@ B --字节码文件加载到内存中--&gt; C[内存中的Student.class]</code><
         <tag>JWT令牌</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Android Studio使用adb远程调试</title>
+    <url>/2024/04/08/Android-Studio%E4%BD%BF%E7%94%A8adb%E8%BF%9C%E7%A8%8B%E8%B0%83%E8%AF%95/</url>
+    <content><![CDATA[<h1 id="方法一-无需插件较为麻烦"><a class="markdownIt-Anchor" href="#方法一-无需插件较为麻烦"></a> 方法一 无需插件，较为麻烦</h1>
+<p>文章链接：</p>
+<p><a href="https://www.cnblogs.com/xielong/p/17694069.html">https://www.cnblogs.com/xielong/p/17694069.html</a></p>
+<h1 id="方法二-直接在android-studio下载adb-wifi插件"><a class="markdownIt-Anchor" href="#方法二-直接在android-studio下载adb-wifi插件"></a> 方法二 直接在Android Studio下载adb wifi插件</h1>
+<p>电脑和手机需要在同一局域网下。</p>
+]]></content>
+      <categories>
+        <category>Android</category>
+      </categories>
+      <tags>
+        <tag>Android</tag>
+      </tags>
+  </entry>
 </search>
