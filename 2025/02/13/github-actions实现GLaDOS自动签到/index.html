@@ -19,18 +19,18 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"jiqiren116.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="前言 之前一直用的vpn是一元机场，但是最近几天非常的不稳定，想找一个临时用的，想起了老朋友GLaDOS,但是之前注册过的账号没法用了，要求我必须充值才行，又重新注册了一个，注册后发现貌似签到可以领时间（但是看评论说现在不太行了，每次签到只有一定的概率获得时间）。但是不管了，自己死马当活马医，同时了解到github actions可以实现GLaDOS的自动签到，因此来耍一耍。  方法一 GitH">
+    <meta name="description" content="本文介绍了如何使用GitHub Actions实现GLaDOS自动签到，以获取免费的VPN使用时间。作者提供了两种实现方法：第一种是基于JavaScript实现的方案，参考了知乎上的教程，但需要注意&#96;push plus&#96;推送服务现在需要实名认证并支付费用；第二种是基于Python实现的方案，参考了&#96;Devilstore&#x2F;Gladoscheckin&#96;项目，该方案支持通过&#96;push plus&#96;推送签到">
 <meta property="og:type" content="article">
 <meta property="og:title" content="github actions实现GLaDOS自动签到">
 <meta property="og:url" content="http://jiqiren116.github.io/2025/02/13/github-actions%E5%AE%9E%E7%8E%B0GLaDOS%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0/index.html">
 <meta property="og:site_name" content="robot-x Blog">
-<meta property="og:description" content="前言 之前一直用的vpn是一元机场，但是最近几天非常的不稳定，想找一个临时用的，想起了老朋友GLaDOS,但是之前注册过的账号没法用了，要求我必须充值才行，又重新注册了一个，注册后发现貌似签到可以领时间（但是看评论说现在不太行了，每次签到只有一定的概率获得时间）。但是不管了，自己死马当活马医，同时了解到github actions可以实现GLaDOS的自动签到，因此来耍一耍。  方法一 GitH">
+<meta property="og:description" content="本文介绍了如何使用GitHub Actions实现GLaDOS自动签到，以获取免费的VPN使用时间。作者提供了两种实现方法：第一种是基于JavaScript实现的方案，参考了知乎上的教程，但需要注意&#96;push plus&#96;推送服务现在需要实名认证并支付费用；第二种是基于Python实现的方案，参考了&#96;Devilstore&#x2F;Gladoscheckin&#96;项目，该方案支持通过&#96;push plus&#96;推送签到">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://jiqiren116.github.io/2025/02/13/github-actions%E5%AE%9E%E7%8E%B0GLaDOS%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0/image-20250211192808987.png">
 <meta property="og:image" content="http://jiqiren116.github.io/2025/02/13/github-actions%E5%AE%9E%E7%8E%B0GLaDOS%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0/image-20250211192848134.png">
 <meta property="og:image" content="http://jiqiren116.github.io/2025/02/13/github-actions%E5%AE%9E%E7%8E%B0GLaDOS%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0/image-20250211193446808.png">
 <meta property="article:published_time" content="2025-02-13T05:20:44.000Z">
-<meta property="article:modified_time" content="2025-02-13T05:30:23.278Z">
+<meta property="article:modified_time" content="2025-02-13T05:40:42.138Z">
 <meta property="article:author" content="robot-x">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://jiqiren116.github.io/2025/02/13/github-actions%E5%AE%9E%E7%8E%B0GLaDOS%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0/image-20250211192808987.png">
@@ -220,7 +220,7 @@
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
       <meta itemprop="name" content="github actions实现GLaDOS自动签到 | robot-x Blog">
-      <meta itemprop="description" content="">
+      <meta itemprop="description" content="本文介绍了如何使用GitHub Actions实现GLaDOS自动签到，以获取免费的VPN使用时间。作者提供了两种实现方法：第一种是基于JavaScript实现的方案，参考了知乎上的教程，但需要注意`push plus`推送服务现在需要实名认证并支付费用；第二种是基于Python实现的方案，参考了`Devilstore/Gladoscheckin`项目，该方案支持通过`push plus`推送签到结果到微信。文章还详细说明了如何修改GitHub Actions的触发时间（使用Cron表达式），并提醒用户在`fork`项目时手动开启GitHub Actions工作流。最后，作者展示了微信推送的签到结果示例，帮助读者更好地理解和实现自动签到功能。">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -236,12 +236,13 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2025-02-13 05:20:44 / 修改时间：05:30:23" itemprop="dateCreated datePublished" datetime="2025-02-13T05:20:44+00:00">2025-02-13</time>
+      <time title="创建时间：2025-02-13 05:20:44 / 修改时间：05:40:42" itemprop="dateCreated datePublished" datetime="2025-02-13T05:20:44+00:00">2025-02-13</time>
     </span>
 
   
 </div>
 
+            <div class="post-description">本文介绍了如何使用GitHub Actions实现GLaDOS自动签到，以获取免费的VPN使用时间。作者提供了两种实现方法：第一种是基于JavaScript实现的方案，参考了知乎上的教程，但需要注意`push plus`推送服务现在需要实名认证并支付费用；第二种是基于Python实现的方案，参考了`Devilstore/Gladoscheckin`项目，该方案支持通过`push plus`推送签到结果到微信。文章还详细说明了如何修改GitHub Actions的触发时间（使用Cron表达式），并提醒用户在`fork`项目时手动开启GitHub Actions工作流。最后，作者展示了微信推送的签到结果示例，帮助读者更好地理解和实现自动签到功能。</div>
         </div>
       </header>
 
