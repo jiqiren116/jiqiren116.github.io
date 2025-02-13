@@ -148,7 +148,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-count">43</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -196,6 +196,204 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://jiqiren116.github.io/2025/02/13/%E5%9C%A8github-codespaces%E4%B8%8A%E5%86%99%E5%8D%9A%E5%AE%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="robot-x">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="robot-x Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | robot-x Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/02/13/%E5%9C%A8github-codespaces%E4%B8%8A%E5%86%99%E5%8D%9A%E5%AE%A2/" class="post-title-link" itemprop="url">在github codespaces上写博客</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-02-13 05:25:04 / 修改时间：05:30:23" itemprop="dateCreated datePublished" datetime="2025-02-13T05:25:04+00:00">2025-02-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h1>
+<p>自己的博客已经很久没有动过了，一直默默的呆在<code>github pages</code>上面，正好自己最近了解到了<code>github codespaces</code>，我理解它是一个云主机（默认ubuntu，自带nodejs和git），我之前把实验<code>mit6.s081</code>部署到了上面，很丝滑，我就在想能不能把hexo本地博客部署到上面，如果成功的花就可以不限设备，随时随地的写博客了，只要有网络，能连接github就行了。</p>
+<p>后来参考了网上的资料实现了，最后的效果是，可以直接在<code>github codespaces</code>上面写文章，也可以使用<code>hexo s</code>命令预览，同时使用了<code>github actions</code>自动化部署，只要将文章push到github上，就会触发github action自动执行<code>hexo g</code>和<code>hexo d</code>等命令，自己需要做的只有<strong>1.写文章 2. push到github上。</strong></p>
+<h1 id="参考文章"><a class="markdownIt-Anchor" href="#参考文章"></a> 参考文章</h1>
+<p>我主要是参考了下面这两篇文章</p>
+<p><a target="_blank" rel="noopener" href="https://hin.cool/posts/codespace.html#%E9%97%AE%E9%A2%98">Github Codespace初体验 | 瓦解的生活记事</a></p>
+<p><a target="_blank" rel="noopener" href="https://xaoxuu.com/blog/20221217/#%E6%8A%8A%E5%8D%9A%E5%AE%A2%E6%8E%A8%E9%80%81%E5%88%B0%E8%BF%99%E4%B8%AA%E4%BB%93%E5%BA%93%E4%B8%AD">博客入门：每个人的独立博客 - XAOXUU</a></p>
+<h1 id="部署过程"><a class="markdownIt-Anchor" href="#部署过程"></a> 部署过程</h1>
+<h2 id="1-将本地博客上传到github"><a class="markdownIt-Anchor" href="#1-将本地博客上传到github"></a> 1. 将本地博客上传到github</h2>
+<p>我最开始是在本地写博客，通过hexo生成静态资源然后部署到github pages。</p>
+<p>因此，我们第一步是将原来本地博客打包上传到github上面，关于如何上传到github自己去网上搜吧。</p>
+<p>大体步骤就是：</p>
+<blockquote>
+<ol>
+<li>在github上创建存储博客的private仓库，名字可以叫<code>myblog-source</code>。</li>
+<li>将本地博客上传到仓库<code>myblog-source</code>，注意些好<code>.gitignore</code>。</li>
+</ol>
+</blockquote>
+<p>这里有几个注意事项：</p>
+<blockquote>
+<ol>
+<li>
+<p>github仓库最好是private，我看网上都是这么说的，说是为了保护个人信息什么的。我也就跟着他们一块了</p>
+</li>
+<li>
+<p>一定要写好<code>.gitignore</code>文件，因为这个本地博客可能会很大，我当时的本地博客得有个好几百兆。下面是我的<code>.gitignore</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.DS_Store</span><br><span class="line">Thumbs.db</span><br><span class="line">db.json</span><br><span class="line">*.log</span><br><span class="line">node_modules/</span><br><span class="line">public/</span><br><span class="line">.deploy*/</span><br><span class="line">.deploy_git/</span><br><span class="line">.idea</span><br><span class="line">themes/next/.git</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</blockquote>
+<h2 id="2-启动github-codespaces"><a class="markdownIt-Anchor" href="#2-启动github-codespaces"></a> 2. 启动github codespaces</h2>
+<p>按照前面的两个参考文章，开启<code>myblog-source</code>仓库的<code>github codespaces</code>。开启后就是下面这个样子：</p>
+<p><img src="image-20250213111011775.png" alt="image-20250213111011775" /></p>
+<p>跟你在本地开发的时候一模一样，而且<code>node_modules</code>都自动下好了，自带nodejs和git。但我在使用时提示<code>hexo</code>没有找到，可能需要你手动使用<code>npm install hexo-cli -g</code>安装hexo，安装完成后就可以使用各种hexo命令了，例如，我用<code>hexo s</code>开启了本地模拟博客，访问4000端口就可以看到了，跟在自己电脑上的一模一样。</p>
+<p><img src="image-20250213111446527.png" alt="image-20250213111446527" /></p>
+<h2 id="3-github-actions的使用"><a class="markdownIt-Anchor" href="#3-github-actions的使用"></a> 3. github actions的使用</h2>
+<p>前面都好的话，我们还要每次在github codespace中写完博客的时候执行hexo clean，hexo g … 等一系列命令才能将hexo生成的静态资源推送到github pages，很麻烦，但现在可以使用github actions来取代前面一系列的复杂操作，github actions类似脚本，下面是我的（我也忘记是抄的谁的了）。</p>
+<p>下面这个github actions作用就是在codespace写完博客push到github后，会触发actions，会自动完成hexo的一系列命令并部署到github pages，很方便。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">name: 自动部署</span><br><span class="line"># 当有改动推送到master分支时，启动Action</span><br><span class="line">on:</span><br><span class="line">  push:</span><br><span class="line">    branches:</span><br><span class="line">      - master</span><br><span class="line">      #2020年10月后github新建仓库默认分支改为main，注意更改</span><br><span class="line">  release:</span><br><span class="line">    types:</span><br><span class="line">      - published</span><br><span class="line"></span><br><span class="line">jobs:</span><br><span class="line">  deploy:</span><br><span class="line">    runs-on: ubuntu-latest</span><br><span class="line">    steps:</span><br><span class="line">      - name: 检查分支</span><br><span class="line">        uses: actions/checkout@v2</span><br><span class="line">        with:</span><br><span class="line">          ref: master</span><br><span class="line"></span><br><span class="line">      - name: 安装 Node</span><br><span class="line">        uses: actions/setup-node@v1</span><br><span class="line">        with:</span><br><span class="line">          node-version: &quot;16.x&quot;</span><br><span class="line"></span><br><span class="line">      - name: 安装 Hexo</span><br><span class="line">        run: |</span><br><span class="line">          export TZ=&#x27;Asia/Shanghai&#x27;</span><br><span class="line">          npm install hexo-cli -g</span><br><span class="line"></span><br><span class="line">      - name: 缓存 Hexo</span><br><span class="line">        id: cache-npm</span><br><span class="line">        uses: actions/cache@v3</span><br><span class="line">        env:</span><br><span class="line">          cache-name: cache-node-modules</span><br><span class="line">        with:</span><br><span class="line">          path: node_modules</span><br><span class="line">          key: $&#123;&#123; runner.os &#125;&#125;-build-$&#123;&#123; env.cache-name &#125;&#125;-$&#123;&#123; hashFiles(&#x27;**/package-lock.json&#x27;) &#125;&#125;</span><br><span class="line">          restore-keys: |</span><br><span class="line">            $&#123;&#123; runner.os &#125;&#125;-build-$&#123;&#123; env.cache-name &#125;&#125;-</span><br><span class="line">            $&#123;&#123; runner.os &#125;&#125;-build-</span><br><span class="line">            $&#123;&#123; runner.os &#125;&#125;-</span><br><span class="line"></span><br><span class="line">      - name: 安装依赖</span><br><span class="line">        if: $&#123;&#123; steps.cache-npm.outputs.cache-hit != &#x27;true&#x27; &#125;&#125;</span><br><span class="line">        run: |</span><br><span class="line">          # npm install gulp-cli -g #全局安装gulp 暂时不用gulp，因为会报错</span><br><span class="line">          npm install --save</span><br><span class="line"></span><br><span class="line">      - name: 生成静态文件</span><br><span class="line">        run: |</span><br><span class="line">          hexo clean</span><br><span class="line">          hexo generate</span><br><span class="line">          # gulp 暂时不用gulp，因为会报错</span><br><span class="line"></span><br><span class="line">      - name: 部署到Github</span><br><span class="line">        uses: JamesIves/github-pages-deploy-action@v4</span><br><span class="line">        with:</span><br><span class="line">          token: $&#123;&#123; secrets.MY_GITHUB_TOKEN &#125;&#125;</span><br><span class="line">          repository-name: jiqiren116/jiqiren116.github.io</span><br><span class="line">          branch: master</span><br><span class="line">          folder: public</span><br><span class="line">          commit-message: &quot;$&#123;&#123; github.event.head_commit.message &#125;&#125; Updated By Github Actions&quot;</span><br></pre></td></tr></table></figure>
+<p>至此，我们将本地博客部署到github codespaces就完成了，感谢前面两篇文章的作者，有了github codespace后感觉能做很多的事情。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://jiqiren116.github.io/2025/02/13/github-actions%E5%AE%9E%E7%8E%B0GLaDOS%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="robot-x">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="robot-x Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | robot-x Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/02/13/github-actions%E5%AE%9E%E7%8E%B0GLaDOS%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0/" class="post-title-link" itemprop="url">github actions实现GLaDOS自动签到</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2025-02-13 05:20:44 / 修改时间：05:30:23" itemprop="dateCreated datePublished" datetime="2025-02-13T05:20:44+00:00">2025-02-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h1>
+<p>之前一直用的vpn是<code>一元机场</code>，但是最近几天非常的不稳定，想找一个临时用的，想起了老朋友<code>GLaDOS</code>,但是之前注册过的账号没法用了，要求我必须充值才行，又重新注册了一个，注册后发现貌似签到可以领时间（但是看评论说现在不太行了，每次签到只有一定的概率获得时间）。但是不管了，自己死马当活马医，同时了解到<code>github actions</code>可以实现GLaDOS的自动签到，因此来耍一耍。</p>
+<h1 id="方法一"><a class="markdownIt-Anchor" href="#方法一"></a> 方法一</h1>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/616919265">GitHub Actions 实现 GLaDOS 自动签到 - 知乎</a></p>
+<p>第一个链接是知乎教程，很详细，但是上次代码更新是俩年前了。具体代码是用JavaScript实现。消息推送使用的是<code>push plus</code>，这个push plus的作用是在执行github actions之后把执行结果推送到微信，达到一个微信提醒的效果（<strong>但现在<code>push plus</code>注册需要实名认证，这个认证要花一块钱</strong>）。</p>
+<p>剩下的就是按照教程来，不需要再做什么改动了。</p>
+<h1 id="方法二"><a class="markdownIt-Anchor" href="#方法二"></a> 方法二</h1>
+<p><a target="_blank" rel="noopener" href="https://github.com/Devilstore/Gladoscheckin">Devilstore/Gladoscheckin: Glados自动签到</a></p>
+<p>第二个链接是代码最近一直在更新的。具体业务代码用python实现。他这个用的消息推送是push deer，我用了，挺麻烦还不好用，不如push plus好用，稍加改动就可以换成push plus，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="comment"># from pypushdeer import PushDeer # 使用push plus，不用pushdeer</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">send_wechat</span>(<span class="params">token, title, msg</span>):</span><br><span class="line">    token = token</span><br><span class="line">    title = title</span><br><span class="line">    content = msg</span><br><span class="line">    template = <span class="string">&#x27;html&#x27;</span></span><br><span class="line">    url = <span class="string">f&quot;https://www.pushplus.plus/send?token=<span class="subst">&#123;token&#125;</span>&amp;title=<span class="subst">&#123;title&#125;</span>&amp;content=<span class="subst">&#123;content&#125;</span>&amp;template=<span class="subst">&#123;template&#125;</span>&quot;</span></span><br><span class="line">    <span class="built_in">print</span>(url)</span><br><span class="line">    r = requests.get(url=url)</span><br><span class="line">    <span class="built_in">print</span>(r.text)</span><br><span class="line"></span><br><span class="line"><span class="comment"># -------------------------------------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># github workflows</span></span><br><span class="line"><span class="comment"># -------------------------------------------------------------------------------------------</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="comment"># pushdeer key 申请地址 https://www.pushdeer.com/product.html</span></span><br><span class="line">    sckey = os.environ.get(<span class="string">&quot;SENDKEY&quot;</span>, <span class="string">&quot;&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 推送内容</span></span><br><span class="line">    title = <span class="string">&quot;&quot;</span></span><br><span class="line">    success, fail, repeats = <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>        <span class="comment"># 成功账号数量 失败账号数量 重复签到账号数量</span></span><br><span class="line">    context = <span class="string">&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># glados账号cookie 直接使用数组 如果使用环境变量需要字符串分割一下</span></span><br><span class="line">    cookies = os.environ.get(<span class="string">&quot;COOKIES&quot;</span>, []).split(<span class="string">&quot;&amp;&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> cookies[<span class="number">0</span>] != <span class="string">&quot;&quot;</span>:</span><br><span class="line"></span><br><span class="line">        check_in_url = <span class="string">&quot;https://glados.space/api/user/checkin&quot;</span>        <span class="comment"># 签到地址</span></span><br><span class="line">        status_url = <span class="string">&quot;https://glados.space/api/user/status&quot;</span>          <span class="comment"># 查看账户状态</span></span><br><span class="line"></span><br><span class="line">        referer = <span class="string">&#x27;https://glados.space/console/checkin&#x27;</span></span><br><span class="line">        origin = <span class="string">&quot;https://glados.space&quot;</span></span><br><span class="line">        useragent = <span class="string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36&quot;</span></span><br><span class="line">        payload = &#123;</span><br><span class="line">            <span class="string">&#x27;token&#x27;</span>: <span class="string">&#x27;glados.one&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> cookie <span class="keyword">in</span> cookies:</span><br><span class="line">            checkin = requests.post(check_in_url, headers=&#123;<span class="string">&#x27;cookie&#x27;</span>: cookie, <span class="string">&#x27;referer&#x27;</span>: referer, <span class="string">&#x27;origin&#x27;</span>: origin,</span><br><span class="line">                                    <span class="string">&#x27;user-agent&#x27;</span>: useragent, <span class="string">&#x27;content-type&#x27;</span>: <span class="string">&#x27;application/json;charset=UTF-8&#x27;</span>&#125;, data=json.dumps(payload))</span><br><span class="line">            state = requests.get(status_url, headers=&#123;</span><br><span class="line">                                <span class="string">&#x27;cookie&#x27;</span>: cookie, <span class="string">&#x27;referer&#x27;</span>: referer, <span class="string">&#x27;origin&#x27;</span>: origin, <span class="string">&#x27;user-agent&#x27;</span>: useragent&#125;)</span><br><span class="line"></span><br><span class="line">            message_status = <span class="string">&quot;&quot;</span></span><br><span class="line">            points = <span class="number">0</span></span><br><span class="line">            message_days = <span class="string">&quot;&quot;</span></span><br><span class="line">            </span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> checkin.status_code == <span class="number">200</span>:</span><br><span class="line">                <span class="comment"># 解析返回的json数据</span></span><br><span class="line">                result = checkin.json()     </span><br><span class="line">                <span class="comment"># 获取签到结果</span></span><br><span class="line">                check_result = result.get(<span class="string">&#x27;message&#x27;</span>)</span><br><span class="line">                points = result.get(<span class="string">&#x27;points&#x27;</span>)</span><br><span class="line"></span><br><span class="line">                <span class="comment"># 获取账号当前状态</span></span><br><span class="line">                result = state.json()</span><br><span class="line">                <span class="comment"># 获取剩余时间</span></span><br><span class="line">                leftdays = <span class="built_in">int</span>(<span class="built_in">float</span>(result[<span class="string">&#x27;data&#x27;</span>][<span class="string">&#x27;leftDays&#x27;</span>]))</span><br><span class="line">                <span class="comment"># 获取账号email</span></span><br><span class="line">                email = result[<span class="string">&#x27;data&#x27;</span>][<span class="string">&#x27;email&#x27;</span>]</span><br><span class="line">                </span><br><span class="line">                <span class="built_in">print</span>(check_result)</span><br><span class="line">                <span class="keyword">if</span> <span class="string">&quot;Checkin! Got&quot;</span> <span class="keyword">in</span> check_result:</span><br><span class="line">                    success += <span class="number">1</span></span><br><span class="line">                    message_status = <span class="string">&quot;签到成功，会员点数 + &quot;</span> + <span class="built_in">str</span>(points)</span><br><span class="line">                <span class="keyword">elif</span> <span class="string">&quot;Checkin Repeats!&quot;</span> <span class="keyword">in</span> check_result:</span><br><span class="line">                    repeats += <span class="number">1</span></span><br><span class="line">                    message_status = <span class="string">&quot;重复签到，明天再来&quot;</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    fail += <span class="number">1</span></span><br><span class="line">                    message_status = <span class="string">&quot;签到失败，请检查...&quot;</span></span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> leftdays <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">                    message_days = <span class="string">f&quot;<span class="subst">&#123;leftdays&#125;</span> 天&quot;</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    message_days = <span class="string">&quot;error&quot;</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                email = <span class="string">&quot;&quot;</span></span><br><span class="line">                message_status = <span class="string">&quot;签到请求URL失败, 请检查...&quot;</span></span><br><span class="line">                message_days = <span class="string">&quot;error&quot;</span></span><br><span class="line"></span><br><span class="line">            context += <span class="string">&quot;账号: &quot;</span> + email + <span class="string">&quot;, P: &quot;</span> + <span class="built_in">str</span>(points) +<span class="string">&quot;, 剩余: &quot;</span> + message_days + <span class="string">&quot; | &quot;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 推送内容 </span></span><br><span class="line">        <span class="comment"># title = f&#x27;Glados, 成功&#123;success&#125;,失败&#123;fail&#125;,重复&#123;repeats&#125;&#x27;</span></span><br><span class="line">        title = message_status</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Send Content:&quot;</span> + <span class="string">&quot;\n&quot;</span>, context)</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment"># 推送内容 </span></span><br><span class="line">        title = <span class="string">f&#x27;# 未找到 cookies!&#x27;</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;sckey:&quot;</span>, sckey)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;cookies:&quot;</span>, cookies)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 推送消息</span></span><br><span class="line">    <span class="comment"># 未设置 sckey 则不进行推送</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> sckey:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Not push&quot;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        send_wechat(sckey, title, context)</span><br><span class="line">        <span class="comment"># pushdeer = PushDeer(pushkey=sckey) </span></span><br><span class="line">        <span class="comment"># pushdeer.send_text(title, desp=context)</span></span><br></pre></td></tr></table></figure>
+<h1 id="微信推送结果展示"><a class="markdownIt-Anchor" href="#微信推送结果展示"></a> 微信推送结果展示</h1>
+<p><img src="image-20250211192808987.png" alt="image-20250211192808987" /></p>
+<h1 id="注意"><a class="markdownIt-Anchor" href="#注意"></a> 注意</h1>
+<h2 id="github-actions触发时间修改"><a class="markdownIt-Anchor" href="#github-actions触发时间修改"></a> github actions触发时间修改</h2>
+<p><img src="image-20250211192848134.png" alt="image-20250211192848134" /></p>
+<p>Cron 表达式有五个字段，分别表示分钟、小时、日、月、星期。而且采用的是UTC时间， utc时间+8小时=北京时间，上图展示的是utc时间4点和10点触发，换成北京时间就是12点和下午六点。</p>
+<h2 id="github-actions的开启和关闭"><a class="markdownIt-Anchor" href="#github-actions的开启和关闭"></a> github actions的开启和关闭</h2>
+<p>在<code>fork</code>他们项目时发现，有时github action是被关闭的，如下图所示：</p>
+<p><img src="image-20250211193446808.png" alt="image-20250211193446808" /></p>
+<p>可能需要你手动开启，点击<code>Enable workflow</code>。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="http://jiqiren116.github.io/2025/02/12/%E4%BD%BF%E7%94%A8github-codespaces%E4%BA%91%E4%B8%8A%E5%AE%9E%E9%AA%8Cmit6-s081%EF%BC%88%E8%B6%85%E7%BA%A7%E4%B8%9D%E6%BB%91%EF%BC%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -224,9 +422,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2025-02-12 11:20:57 / 修改时间：11:41:08" itemprop="dateCreated datePublished" datetime="2025-02-12T11:20:57+00:00">2025-02-12</time>
+      <time title="创建时间：2025-02-12 11:20:57" itemprop="dateCreated datePublished" datetime="2025-02-12T11:20:57+00:00">2025-02-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-02-13 05:30:23" itemprop="dateModified" datetime="2025-02-13T05:30:23+00:00">2025-02-13</time>
     </span>
 
   
@@ -239,10 +443,26 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>将blog结合github codespace的两篇参考文章如下<br />
-<a target="_blank" rel="noopener" href="https://hin.cool/posts/codespace.html#%E9%97%AE%E9%A2%98">https://hin.cool/posts/codespace.html#问题</a></p>
-<p><a target="_blank" rel="noopener" href="https://xaoxuu.com/blog/20221217/#%E6%8A%8A%E5%8D%9A%E5%AE%A2%E6%8E%A8%E9%80%81%E5%88%B0%E8%BF%99%E4%B8%AA%E4%BB%93%E5%BA%93%E4%B8%AD">https://xaoxuu.com/blog/20221217/#把博客推送到这个仓库中</a></p>
-<p>hello world</p>
+          <h1 id="使用github-codespace做mit6s081非常的丝滑"><a class="markdownIt-Anchor" href="#使用github-codespace做mit6s081非常的丝滑"></a> <strong>使用github codespace做mit6.s081非常的丝滑。</strong></h1>
+<h1 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h1>
+<p>mit6.s081只做了第一个实验，后面由于emo和懒惰，就没有后续的实验（但是我心里一直在想着这个实验，因为我大学的时候就想做这个时候）。最近年后刚刚返工，手头任务不重，又想起了这个实验，但是公司的电脑内存有点捉急，结合最近了解到的<code>github codespace</code>（知道是个云主机，而且默认系统是<code>ubuntu</code>），想着可以在云上做这个实验，想法不错。</p>
+<h1 id="操作"><a class="markdownIt-Anchor" href="#操作"></a> 操作</h1>
+<p>我之前已经做过实验一，因此在github上有对应的仓库，直接基于这个仓库开搞。</p>
+<p><img src="image-20250208113032788.png" alt="image-20250208113032788" /></p>
+<p><img src="image-20250208113130980.png" alt="image-20250208113130980" /></p>
+<p>剩下的分支、地区和机器类型自己去网上搜。</p>
+<p>创建完后就是下面的样子，在命令行中输入<code>uname -a</code>可以看到ubuntu版本是22.04，这个版本可以直接使用的（之前在网上看到说22.04有问题，但在github codespace中测试是可以的）。</p>
+<p><img src="image-20250208113353681.png" alt="image-20250208113353681" /></p>
+<p>然后返回到上级的workspaces目录，在这个目录下安装安装QEMU等必备包（网上很多资料，自己搜）</p>
+<p><img src="image-20250208113616251.png" alt="image-20250208113616251" /></p>
+<p>我用到的安装命令依次是（仅供参考）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.  sudo apt-get update</span><br><span class="line">2.  sudo apt-get install git build-essential gdb-multiarch qemu-system-misc gcc-riscv64-linux-gnu binutils-riscv64-linux-gnu</span><br></pre></td></tr></table></figure>
+<p>此时环境就搭建完成了。进入仓库目录，执行<code>make qemu</code>命令就可以跑起来了，全程非常的丝滑。</p>
+<p><img src="image-20250208114102278.png" alt="image-20250208114102278" /></p>
+<p><img src="image-20250208114125441.png" alt="image-20250208114125441" /></p>
+<h1 id="结束语"><a class="markdownIt-Anchor" href="#结束语"></a> 结束语</h1>
+<p>简单点操作过程，以防后面忘记，我真的没想到会这么的容易。</p>
+<p><strong>但是这个github codespace每个月都有限定的时间，自己要注意不要超过限额。</strong></p>
 
       
     </div>
@@ -305,7 +525,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-02-12 11:41:08" itemprop="dateModified" datetime="2025-02-12T11:41:08+00:00">2025-02-12</time>
+      <time title="修改时间：2025-02-13 05:30:22" itemprop="dateModified" datetime="2025-02-13T05:30:22+00:00">2025-02-13</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -397,7 +617,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-02-12 11:41:08" itemprop="dateModified" datetime="2025-02-12T11:41:08+00:00">2025-02-12</time>
+      <time title="修改时间：2025-02-13 05:30:23" itemprop="dateModified" datetime="2025-02-13T05:30:23+00:00">2025-02-13</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -493,7 +713,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-02-12 11:41:08" itemprop="dateModified" datetime="2025-02-12T11:41:08+00:00">2025-02-12</time>
+      <time title="修改时间：2025-02-13 05:30:23" itemprop="dateModified" datetime="2025-02-13T05:30:23+00:00">2025-02-13</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -585,7 +805,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-02-12 11:41:08" itemprop="dateModified" datetime="2025-02-12T11:41:08+00:00">2025-02-12</time>
+      <time title="修改时间：2025-02-13 05:30:23" itemprop="dateModified" datetime="2025-02-13T05:30:23+00:00">2025-02-13</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -677,7 +897,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-02-12 11:41:08" itemprop="dateModified" datetime="2025-02-12T11:41:08+00:00">2025-02-12</time>
+      <time title="修改时间：2025-02-13 05:30:23" itemprop="dateModified" datetime="2025-02-13T05:30:23+00:00">2025-02-13</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -769,7 +989,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-02-12 11:41:08" itemprop="dateModified" datetime="2025-02-12T11:41:08+00:00">2025-02-12</time>
+      <time title="修改时间：2025-02-13 05:30:23" itemprop="dateModified" datetime="2025-02-13T05:30:23+00:00">2025-02-13</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -861,7 +1081,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-02-12 11:41:08" itemprop="dateModified" datetime="2025-02-12T11:41:08+00:00">2025-02-12</time>
+      <time title="修改时间：2025-02-13 05:30:22" itemprop="dateModified" datetime="2025-02-13T05:30:22+00:00">2025-02-13</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -887,198 +1107,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2024/03/24/JavaGuide%E9%9D%A2%E8%AF%95%E7%AA%81%E5%87%BB%E7%89%88/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://jiqiren116.github.io/2024/03/04/%E7%91%9E%E5%90%89%E5%A4%96%E5%8D%96%E9%A1%B9%E7%9B%AE%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="robot-x">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="robot-x Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | robot-x Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/03/04/%E7%91%9E%E5%90%89%E5%A4%96%E5%8D%96%E9%A1%B9%E7%9B%AE%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">瑞吉外卖项目遇到的问题</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2024-03-04 15:12:16" itemprop="dateCreated datePublished" datetime="2024-03-04T15:12:16+00:00">2024-03-04</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-02-12 11:41:08" itemprop="dateModified" datetime="2025-02-12T11:41:08+00:00">2025-02-12</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E9%A1%B9%E7%9B%AE/" itemprop="url" rel="index"><span itemprop="name">项目</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E9%A1%B9%E7%9B%AE/%E7%91%9E%E5%90%89%E5%A4%96%E5%8D%96/" itemprop="url" rel="index"><span itemprop="name">瑞吉外卖</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>为方便以后自己对项目的回顾，记下自己在瑞吉外卖项目开发中遇到的各种问题，这也是自己第一次搞这种Java大项目（这个项目对自己来说算是很难得，看视频跟上手敲代码完全不一样）</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/03/04/%E7%91%9E%E5%90%89%E5%A4%96%E5%8D%96%E9%A1%B9%E7%9B%AE%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://jiqiren116.github.io/2023/12/19/SpringBoot/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="robot-x">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="robot-x Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | robot-x Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/12/19/SpringBoot/" class="post-title-link" itemprop="url">SpringBoot</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2023-12-19 14:38:31" itemprop="dateCreated datePublished" datetime="2023-12-19T14:38:31+00:00">2023-12-19</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-02-12 11:41:08" itemprop="dateModified" datetime="2025-02-12T11:41:08+00:00">2025-02-12</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java/SpringBoot/" itemprop="url" rel="index"><span itemprop="name">SpringBoot</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>介绍了SpringBoot的快速入门、SpringBoot的各种文件配置和环境配置，最后介绍了SpringBoot整合junit和整合mybatis</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/12/19/SpringBoot/">
                 阅读全文 &raquo;
               </a>
             </div>
